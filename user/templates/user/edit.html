@@ -1,0 +1,112 @@
+{% extends "core/base.html" %}
+
+{% block title %}Create{% endblock title %}
+
+{% block content %}
+	{% include "shared/header.html" %}
+	<div class="container">
+		<main>
+			<div class="row d-flex justify-content-center mt-4">
+			<div class="col-md-7 col-lg-8">
+				<h4 class="mb-3">{{ username_value }}</h4>
+					<form novalidate="" method="POST"> {% csrf_token %}
+						<div class="row g-3">
+							<div class="col-sm-6">
+								<label for="firstName" class="form-label">Nombre(s)</label>
+								<input
+									type="text"
+									class="form-control {% if firstName %}is-invalid{% endif %}"
+									id="firstName"
+									name="firstName"
+									placeholder=""
+									value="{{ firstName_value }}"
+									required=""
+									{% if registred_by_value != request.user %}readonly{% endif %}
+								>
+								<div class="invalid-feedback">{{ firstName }}</div>
+							</div>
+
+							<div class="col-sm-6">
+								<label for="lastName" class="form-label">Apellido(s)</label>
+								<input
+									type="text"
+									class="form-control {% if lastName %}is-invalid{% endif %}"
+									id="lastName"
+									name="lastName"
+									placeholder=""
+									value="{{ lastName_value }}"
+									required=""
+									{% if registred_by_value != request.user %}readonly{% endif %}
+								>
+								<div class="invalid-feedback">{{ lastName }}</div>
+							</div>
+
+							<div class="col-12">
+								<label for="username" class="form-label">Username</label>
+								<div class="input-group has-validation">
+									<span class="input-group-text">@</span>
+									
+										<input
+											type="text"
+											class="form-control {% if username %}is-invalid{% endif %}"
+											id="username"
+											name="username"
+											placeholder="Username"
+											value="{{ username_value }}"
+											required=""
+											{% if registred_by_value != request.user %}readonly{% endif %}
+										>
+										<div class="invalid-feedback">{{ username }}</div>
+								</div>
+							</div>
+
+							<div class="col-12">
+								<label for="email" class="form-label">Email</label>
+								<input
+									type="email"
+									class="form-control {% if email %}is-invalid{% endif %}"
+									id="email"
+									name="email"
+									placeholder="tu@example.com"
+									value="{{ email_value }}"
+									{% if registred_by_value != request.user %}readonly{% endif %}
+								>
+								<div class="invalid-feedback">{{ email }}</div>
+							</div>
+
+							<div class="col-12">
+								<label for="credits" class="form-label">Creditós</label>
+								<input
+									type="numero"
+									class="form-control {% if credits %}is-invalid{% endif %}"
+									id="credits"
+									name="credits"
+									value="{{ credits_value }}"
+									{% if not perms.user.change_credits %}readonly{% endif %}
+								>
+								<div class="invalid-feedback">{{ credits }}</div>
+							</div>
+
+							<div class="form-check">
+								<input
+									class="form-check-input"
+									type="checkbox"
+									name="is_active"
+									id="is_active"
+									{% if is_active %}checked{% endif %}
+								>
+								<label class="form-check-label" for="is_active">
+									Activo
+								</label>
+							</div>
+					<hr class="my-4">
+
+						<button class="w-100 btn btn-primary btn-lg" type="submit">Guardar</button>
+					</form>
+				</div>
+			</div>
+		</main>
+	</div>
+
+	{{ username }}
+{% endblock content %}

@@ -1,0 +1,135 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}Home{% endblock title %}
+{% block content %}
+	{% include "shared/header.html" %}
+
+	<h1 class="display-6 mt-4 text-center">Usuarios</h1>
+	<div class="container mt-1">
+		
+		<form novalidate="" method="GET">
+			<div class="row g-3">
+					<div class="col-sm-6">
+						<input type="text" class="form-control" id="search" name="search" placeholder="Buscar"  >
+					</div>
+	
+				<div class="col-sm-2">
+					<select class="form-select" id="filtro" name="filtro"required="">
+						<option value="1">Nombre</option>
+						<option value="2">Email</option>
+					</select>
+				</div>
+
+					<div class="col-sm-2">
+						<input type="date" class="form-control" id="f_inicio" name="f_inicio" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Fecha inicial">
+					</div>
+
+					<div class="col-sm-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Fecha final">
+						<input type="date" class="form-control" id="f_fin" name="f_fin">
+					</div>
+			</div>
+		</form>
+
+		{% if date_err %}
+			<p class="text-danger text-center my-2">{{ date_err }}</p>
+		{% endif %}
+
+
+
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th scope="col">Email</th>
+					<th scope="col">Username</th>
+					{% if request.user.type <= 2 %}
+						<th scope="col">Tipo</th>
+					{% endif %}
+					<th scope="col">Nombre(s)</th>
+					<th scope="col">Apellido(s)</th>
+					<th scope="col"></th>
+					<th scope="col"></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for usuario in usuarios %}
+					<tr>
+						<td>{{ usuario.email }}</td>
+						<td>{{ usuario.username }}</td>
+						{% if request.user.type <= 2 %}
+							<td>
+								{% if usuario.type == 2 %}
+									Administrador
+								{% elif usuario.type == 3 %}
+									Distribuidor
+								{% else %}
+									Cliente
+								{% endif %}
+							</td>
+						{% endif %}
+						<td>{{ usuario.first_name }}</td>
+						<td>{{ usuario.last_name }}</td>
+						<td>
+							<a 
+								href="{% url 'edit' usuario.username %}"
+									class="btn btn-primary"
+							>
+								<span class="material-icons align-middle">
+									edit
+								</span>
+							</a>
+							<a
+								href="{% url 'delete' usuario.username %}"
+								{% if usuario.registred_by == request.user %}
+								class="btn btn-danger"
+								{% else %}
+								class="btn btn-danger disabled"
+								{% endif %}
+							>
+								<span class="material-icons align-middle">
+									delete
+								</span>
+							</a>
+						</td>
+						<td></td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+
+
+	{% if usuarios and usuarios.has_other_pages %}
+
+		<div class="d-flex justify-content-center">
+			<div class="btn-group" role="group" aria-label="Item pagination">
+				{% if usuarios.has_previous %}
+					<a href="?page={{ usuarios.previous_page_number }}{{ url_params }}" class="btn btn-outline-primary">&laquo;</a>
+				{% endif %}
+
+				{% for page_number in usuarios.paginator.page_range %}
+					{% if usuarios.number == page_number %}
+						<button class="btn btn-outline-primary active">
+							<span>{{ page_number }}</span>
+						</button>
+					{% else %}
+						<a href="?page={{ page_number }}{{ url_params }}" class="btn btn-outline-primary">
+							{{ page_number }}
+						</a>
+					{% endif %}
+				{% endfor %}
+
+				{% if usuarios.has_next %}
+					<a href="?page={{ usuarios.next_page_number }}{{ url_params }}" class="btn btn-outline-primary">&raquo;</a>
+				{% endif %}
+			</div>
+		</div>
+
+	{% endif %}
+
+	
+{% endblock content %}
+
+{% block script %}
+ <script src="{% static 'js/user/home.js' %}"></script>
+{% endblock script %}

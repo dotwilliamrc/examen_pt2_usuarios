@@ -1,0 +1,59 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}Profile{% endblock title %}
+
+{% block content %}
+	{% include "shared/header.html" %}
+
+		<div class="container">
+		<main>
+			<div class="row d-flex justify-content-center mt-4">
+			<div class="col-md-7 col-lg-8">
+					<h4 class="mb-3">Registrar Usuario</h4>
+					<form novalidate="" method="POST"> {% csrf_token %}
+						<div class="row g-3">
+							<div class="col-sm-6">
+								<label for="firstName" class="form-label">Nombre(s)</label>
+								{% if firstName %}
+								<input type="text" class="form-control is-invalid" id="firstName" name="firstName" placeholder="" value="{{ firstName_value }}" required="">
+									<div class="invalid-feedback">{{ firstName }}</div>
+								{% else %}
+									<input type="text" class="form-control" id="firstName" name="firstName" placeholder="" value="{{ firstName_value }}" required="">
+								{% endif %}
+								
+							</div>
+
+							<div class="col-sm-6">
+								<label for="lastName" class="form-label">Apellido(s)</label>
+								{% if lastName %}
+								<input type="text" class="form-control is-invalid" id="lastName" name="lastName" placeholder="" value="{{ lastName_value }}" required="">
+									<div class="invalid-feedback">{{ lastName }}</div>
+								{% else %}
+								<input type="text" class="form-control" id="lastName" name="lastName" placeholder="" value="{{ lastName_value }}" required="">
+								{% endif %}
+							</div>
+
+							<div class="col-12">
+								<label for="email" class="form-label">Email</label>
+								{% if email %}
+								<input type="email" class="form-control is-invalid" id="email" name="email" placeholder="tu@example.com" value="{{ email_value }}">
+									<div class="invalid-feedback">{{ email }}</div>
+								{% else %}
+									<input type="email" class="form-control" id="email" name="email" placeholder="tu@example.com" value="{{ email_value }}">
+								{% endif %}
+							</div>
+
+					<hr class="my-4">
+						
+						<button class="w-100 btn btn-primary btn-lg" type="submit">Guardar</button>
+					</form>
+					{% if success %}
+						<p class="alert alert-success text-center success-text" role="alert">Guardado</p>
+					{% endif %}
+				</div>
+			</div>
+		</main>
+	</div>
+
+{% endblock content %}

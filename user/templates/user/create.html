@@ -1,0 +1,120 @@
+{% extends "core/base.html" %}
+
+{% block title %}Create{% endblock title %}
+
+{% block content %}
+	{% include "shared/header.html" %}
+	<div class="container">
+		<main>
+			<div class="row d-flex justify-content-center mt-4">
+			<div class="col-md-7 col-lg-8">
+					<h4 class="mb-3">Registrar Usuario</h4>
+					<form novalidate="" method="POST"> {% csrf_token %}
+						<div class="row g-3">
+							<div class="col-sm-6">
+								<label for="firstName" class="form-label">Nombre(s)</label>
+								{% if firstName %}
+								<input type="text" class="form-control is-invalid" id="firstName" name="firstName" placeholder="" value="{{ firstName_value }}" required="">
+									<div class="invalid-feedback">{{ firstName }}</div>
+								{% else %}
+									<input type="text" class="form-control" id="firstName" name="firstName" placeholder="" value="{{ firstName_value }}" required="">
+								{% endif %}
+								
+							</div>
+
+							<div class="col-sm-6">
+								<label for="lastName" class="form-label">Apellido(s)</label>
+								{% if lastName %}
+								<input type="text" class="form-control is-invalid" id="lastName" name="lastName" placeholder="" value="{{ lastName_value }}" required="">
+									<div class="invalid-feedback">{{ lastName }}</div>
+								{% else %}
+								<input type="text" class="form-control" id="lastName" name="lastName" placeholder="" value="{{ lastName_value }}" required="">
+								{% endif %}
+								
+							</div>
+
+							<div class="col-12">
+								<label for="username" class="form-label">Username</label>
+								<div class="input-group has-validation">
+									<span class="input-group-text">@</span>
+									{% if username %}
+										<input type="text" class="form-control is-invalid" id="username" name="username" placeholder="Username" value="{{ username_value }}" required="">
+										<div class="invalid-feedback">{{ username }}</div>
+									{% else %}
+									<input type="text" class="form-control" id="username" name="username" placeholder="Username" value="{{ username_value }}" required="">
+									{% endif %}
+								</div>
+							</div>
+
+							<div class="col-12">
+								<label for="email" class="form-label">Email</label>
+								{% if email %}
+								<input type="email" class="form-control is-invalid" id="email" name="email" placeholder="tu@example.com" value="{{ email_value }}">
+									<div class="invalid-feedback">{{ email }}</div>
+								{% else %}
+									<input type="email" class="form-control" id="email" name="email" placeholder="tu@example.com" value="{{ email_value }}">
+								{% endif %}
+							</div>
+
+							<div class="col-12">
+								<label for="password1" class="form-label">Contraseña</label>
+								{% if password1 %}
+								<input type="password" class="form-control is-invalid" name="password1" id="password1" value="{{ password1_value }}">
+									<div class="invalid-feedback">{{ password1 }}</div>
+								{% else %}
+								<input type="password" class="form-control" name="password1" id="password1" value="{{ password2_value }}">
+								{% endif %}
+							</div>
+
+							<div class="col-12">
+								<label for="password2" class="form-label">Repite la contraseña</label>
+								{% if password2 %}
+								<input type="password" class="form-control is-invalid" name="password2" id="password2" value="{{ password2_value }}">
+									<div class="invalid-feedback">{{ password2 }}</div>
+								{% else %}
+								<input type="password" class="form-control" name="password2" id="password2" value="{{ password2_value }}">
+								{% endif %}							
+							</div>
+
+							<div class="col-md-5">
+								<label for="tipo" class="form-label">Tipo</label>
+								<select class="form-select" id="tipo" name="tipo" required="">
+									{% if request.user.type == 1 %}
+										{% if tipo_value == "2" %}
+											<option value="2" selected>Administrador</option>
+										{% else %}
+											<option value="2">Administrador</option>
+										{% endif %}
+
+										{% if tipo_value == "3" %}
+											<option value="3" selected>Distribuidor</option>
+										{% else %}
+											<option value="3">Distribuidor</option>
+										{% endif %}
+
+										{% if tipo_value == "4" %}
+											<option value="4" selected>Cliente</option>
+										{% else %}
+											<option value="4">Cliente</option>
+										{% endif %}
+
+
+									{% elif request.user.type == 2 %}
+										<option value="3" selected>Distribuidor</option>
+
+									{% elif request.user.type == 3 %}
+										<option value="4" selected>Cliente</option>
+
+									{% endif %}
+								</select>
+							</div>
+
+					<hr class="my-4">
+
+						<button class="w-100 btn btn-primary btn-lg" type="submit">Guardar</button>
+					</form>
+				</div>
+			</div>
+		</main>
+	</div>
+{% endblock content %}

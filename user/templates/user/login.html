@@ -1,0 +1,56 @@
+{% extends "core/base.html" %}
+
+{% block title %}Login{% endblock title %}
+
+{% block content %}
+	<main
+		class="
+			d-flex
+			justify-content-center
+			align-items-center
+			vw-100
+			vh-100
+			bg-dark
+		"
+	>
+		<form class="card p-4" autocomplete="off" method="post"> {% csrf_token %}
+			<h1 class="card-title">Iniciar Sesión</h1>
+			<div class="mb-4">
+				<input 
+					type="text"
+					placeholder="Usuario"
+					{% if err_user %}
+						class="form-control is-invalid"
+					{% else %}
+						class="form-control"
+					{% endif %}
+					name="username"
+					id="username"
+				/>
+				<div id="username" class="invalid-feedback">
+					El usuario no existe
+				</div>
+			</div>
+			<div class="mb-4">
+				<input 
+					type="password"
+					placeholder="Contraseña"
+					{% if err_pass %}
+						class="form-control is-invalid"
+					{% else %}
+						class="form-control"
+					{% endif %}					name="password"
+					id="password"
+				/>
+				<div id="password" class="invalid-feedback">
+					La contraseña es incorrecta
+				</div>
+			</div>
+			<input
+				type="submit"
+				class="btn btn-primary"
+				value="Ingresar"
+			/>
+		</form>
+	</main>
+{% endblock content %}

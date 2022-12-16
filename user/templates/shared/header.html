@@ -1,0 +1,27 @@
+{% load static %}
+
+<header class="p-3 bg-dark text-white">
+	<div class="container">
+		<div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+			<ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+				{% if perms.user.manage_users %}
+					<li><a href="{% url 'home' %}" class="nav-link px-2 text-white">Home</a></li>
+				{% endif %}
+				<li><a href="{% url 'profile' %}" class="nav-link px-2 text-white">Perfil</a></li>
+			</ul>
+
+			<div class="text-end">
+				{% if perms.user.manage_users %}
+					<a href="{% url 'create' %}" class="btn btn-warning">Crear Usuario</a>
+				{% endif %}
+				<a href="{% url 'logout' %}" class="btn btn-outline-light me-2">Logout</a>
+				{% if request.user.type == 1 or request.user.type == 2 %}
+					<a href="{% url 'csv' %}" class="btn btn-outline-success me-2">Exportar Usuarios</a>
+				{% endif %}
+				<p class="text-light align-middle d-inline-block mb-0" id="header_credits">-C | -$</span>
+			</div>
+		</div>
+	</div>
+</header>
+
+<script src="{% static 'js/shared/header.js' %}"></script>

@@ -1,0 +1,20 @@
+.errorlist {
+	list-style: none;
+	padding: 0;
+}
+
+.errorlist li:not(:first-child) {
+	display: none;
+}
+
+@keyframes desaparecer {
+	0% {opacity: 1;}
+	50% {opacity: 1;}
+	100% {opacity: 0;}
+}
+
+.success-text {
+	opacity: 0;
+	animation-name: desaparecer;
+	animation-duration: 3s;
+}
